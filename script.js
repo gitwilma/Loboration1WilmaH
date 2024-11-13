@@ -1,6 +1,10 @@
 let currentPage = "start";
 const points = [];
 
+const app = document.getElementById("app");
+let textContainer;
+let imageContainer;
+
 function addPoint(value) {
     points.push(value);
 }
@@ -10,13 +14,12 @@ function calculateTotalPoints() {
 }
 
 function renderPage() {
-    const app = document.getElementById("app");
     app.innerHTML = "";
 
-    const imageContainer = document.createElement("div");
+    imageContainer = document.createElement("div");
     imageContainer.className = "image-container";
 
-    const textContainer = document.createElement("div");
+    textContainer = document.createElement("div");
     textContainer.className = "text-container";
 
     const image = document.createElement("img");
@@ -30,9 +33,9 @@ function renderPage() {
 
 if (currentPage === "start") {
     const heading = document.createElement("h1");
-    heading.innerText = "Storyn om Frontendutvecklaren";
+    heading.innerText = "En Frontendutvecklares Resa";
     const text = document.createElement("p");
-    text.innerText = "Höstlöven faller och skolans portar står öppna för en ny generation Frontendutvecklare. Här får du skapa, koda och utforska digitala byggstenar – från pixelperfekt design till smarta funktioner och interaktiva effekter. Med erfarna lärare och spännande projekt utvecklar du dina färdigheter i HTML, CSS, JavaScript och mer. Varje steg tar dig närmare målet att bli en fullfjädrad Frontendutvecklare!\n\nMen innan vi börjar… Vem är du på den här resan? Välj din karaktär och låt äventyret börja – kommer du att ta dig an utmaningarna med en färgstark, kreativ syn, eller är du mer den strukturerade problemlösaren? Ditt val kommer forma din resa och hur du upplever varje steg mot att bli en frontendutvecklare."
+    text.innerText = "Höstlöven faller och skolans portar står öppna för en ny generation Frontendutvecklare. Med erfarna lärare och spännande projekt utvecklar eleverna sina färdigheter i HTML, CSS, JavaScript och mer. Men innan vi börjar… Vilken karaktär vill du följa på den här resan? Välj din karaktär och låt äventyret börja – ditt val kommer forma resan och hur du upplever varje steg mot att bli en frontendutvecklare. För att klara spelet krävs full pott på de kunskapskontroller du ställs inför. Lycka till!"
     const hedvigButton = createButton("Hedvig den strukturerade", () => nextPage("hedvigSelected"));
     const ottoButton = createButton("Otto den kreative", () => nextPage("ottoSelected"));
 
@@ -73,18 +76,18 @@ else if (currentPage === "ottoSelected") {
 
 else if (currentPage === "creativeChoice") {
     image.src = "Assets/creativeclassroom.webp";
-    const headingHedvigCreativeChoice = document.createElement("h2");
-    headingHedvigCreativeChoice.innerText = "Välkommen till UX-kursen!";
-    const textHedvigCreativeChoice = document.createElement("p");
-    textHedvigCreativeChoice.innerText = "Vilken färgkombination ger en mer sofistikerad och lugn känsla i design?";
+    const headingCreativeChoice = document.createElement("h2");
+    headingCreativeChoice.innerText = "UX och Usability";
+    const textCreativeChoice = document.createElement("p");
+    textCreativeChoice.innerText = "Vilken färgkombination ger en mer sofistikerad och lugn känsla i design?";
     const correctAnswerButton = createButton("Marinblå och beige", () => {
-        addPoint(10);
-        nextPage("levelSelectionJS");
+        addPoint(50);
+        showSecondCreativeQuestion();
     });
-    const incorrectAnswerButton = createButton("Orange och lila", () => nextPage("basicLevelHTML"));
+    const incorrectAnswerButton = createButton("Orange och lila", () => showSecondCreativeQuestion());
 
-    textContainer.appendChild(headingHedvigCreativeChoice);
-    textContainer.appendChild(textHedvigCreativeChoice);
+    textContainer.appendChild(headingCreativeChoice);
+    textContainer.appendChild(textCreativeChoice);
     textContainer.appendChild(correctAnswerButton);
     textContainer.appendChild(incorrectAnswerButton);
 }
@@ -92,13 +95,46 @@ else if (currentPage === "creativeChoice") {
 else if (currentPage === "logicalChoice") {
     image.src = "Assets/backendclassroom2.webp";
     const headingHedvigLogicalChoice = document.createElement("h2");
-    headingHedvigLogicalChoice.innerText = "Välkommen till fördjupningskursen om olika kodsyntax!";
+    headingHedvigLogicalChoice.innerText = "Avancerad Programmering och Logik";
     const textHedvigLogicalChoice = document.createElement("p");
     textHedvigLogicalChoice.innerText = "Vilket av följande sätt används för att kontrollera om två värden är exakt lika i JavaScript?";
+    const incorrectAnswerButtonLogic = createButton("==!", () => showSecondLogicalQuestion());
+    const correctAnswerButtonLogic = createButton("===", () => {
+        addPoint(50);
+        showSecondLogicalQuestion();
+    })
 
     textContainer.appendChild(headingHedvigLogicalChoice);
     textContainer.appendChild(textHedvigLogicalChoice);
+    textContainer.appendChild(incorrectAnswerButtonLogic);
+    textContainer.appendChild(correctAnswerButtonLogic);
 
+}
+
+else if (currentPage === "internshipApplicationSuccess") {
+    image.src = "Assets/techcompany2.webp";
+    const headingInternshipApplicationSuccess = document.createElement("h2");
+    headingInternshipApplicationSuccess.innerText = "Stort grattis!";
+    const textInternshipApplicationSuccess = document.createElement("p");
+    textInternshipApplicationSuccess.innerText = "Fantastiskt jobbat! Du har bevisat dina färdigheter och klarat av alla utmaningar med full pott. Med både kreativitet och kodkunskaper har du tagit dig hela vägen och visat att du har vad som krävs för att bli en fullfjädrad frontendutvecklare. Framtiden som utvecklare ligger framför dig – det här är bara början! Grattis och lycka till på din fortsatta resa!";
+    const goBackButton = createButton("Tillbaka till startsidan", () => nextPage("start"));
+
+    textContainer.appendChild(headingInternshipApplicationSuccess);
+    textContainer.appendChild(textInternshipApplicationSuccess);
+    textContainer.appendChild(goBackButton);
+}
+
+else if (currentPage === "internshipApplicationDenied") {
+    image.src = "Assets/applicationdenied.webp";
+    const headingInternshipApplicationDenied = document.createElement("h2");
+    headingInternshipApplicationDenied.innerText = "Tyvärr, du nådde inte hela vägen fram den här gången.";
+    const textInternshipApplicationDenied = document.createElement("p");
+    textInternshipApplicationDenied.innerText = "Men misströsta inte! Alla stora utvecklare har mött utmaningar längs vägen, och varje misstag är en chans att växa och bli bättre. Du har nu möjligheten att starta om från början, med ny erfarenhet och kunskap i bagaget. Ta dig an utmaningarna igen, lär dig av det du har gått igenom, och visa vad du går för. Vi tror på dig – du har det som krävs för att lyckas!";
+    const tryAgainButton = createButton("Försök igen", () => nextPage("start"));
+
+    textContainer.appendChild(headingInternshipApplicationDenied);
+    textContainer.appendChild(textInternshipApplicationDenied);
+    textContainer.appendChild(tryAgainButton);
 }
 
 
@@ -108,6 +144,52 @@ scoreDisplay.innerText = `Total poäng: ${calculateTotalPoints()}`;
 
 app.appendChild(scoreDisplay);
 } 
+
+function showSecondCreativeQuestion() {
+    textContainer.innerHTML = "";
+
+    const headingSecondCreativeQuestion = document.createElement("h2");
+    headingSecondCreativeQuestion.innerText = "UX och Usability";
+    const textSecondCreativeQuestion = document.createElement("p");
+    textSecondCreativeQuestion.innerText = "Vilken färg på knappar är oftast mest användarvänlig för att visa en bekräfta-åtgärd?";
+    const correctAnswerButton2 = createButton("Grön", () => {
+        addPoint(50);
+        checkScoreAndProceed();
+    });
+    const incorrectAnswerButton2 = createButton("Röd", () => nextPage("internshipApplicationDenied"));
+
+    textContainer.appendChild(headingSecondCreativeQuestion);
+    textContainer.appendChild(textSecondCreativeQuestion);
+    textContainer.appendChild(correctAnswerButton2);
+    textContainer.appendChild(incorrectAnswerButton2);
+}
+
+function showSecondLogicalQuestion() {
+    textContainer.innerHTML = "";
+
+    const headingSecondLogicalQuestion = document.createElement("h2");
+    headingSecondLogicalQuestion.innerText = "Avancerad Programmering och Logik";
+    const textSecondLogicalQuestion = document.createElement("p");
+    textSecondLogicalQuestion.innerText = "Hur anropar du en funktion med namnet myFunction i JavaScript?";
+    const correctAnswerButtonLogic2 = createButton("myFunction();", () => {
+        addPoint(50);
+        checkScoreAndProceed();
+    });
+    const incorrectAnswerButtonLogic2 = createButton("call myFunction", () => nextPage("internshipApplicationDenied"));
+
+    textContainer.appendChild(headingSecondLogicalQuestion);
+    textContainer.appendChild(textSecondLogicalQuestion);
+    textContainer.appendChild(correctAnswerButtonLogic2);
+    textContainer.appendChild(incorrectAnswerButtonLogic2);
+}
+
+function checkScoreAndProceed() {
+    if (calculateTotalPoints() >= 100) {
+        nextPage("internshipApplicationSuccess");
+    } else {
+        nextPage("internshipApplicationDenied");
+    }
+}
 
 function createButton(text, onClick) {
     const button = document.createElement("button");
