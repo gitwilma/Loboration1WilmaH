@@ -7,3 +7,7 @@ Detta projekt är en interaktiv upplevelse där användaren får följa med på 
 # Demo
 
 https://gitwilma.github.io/Loboration1WilmaH/
+
+# GitHub Repo
+
+https://github.com/gitwilma/Loboration1WilmaH
